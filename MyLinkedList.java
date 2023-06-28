@@ -14,6 +14,8 @@ public class MyLinkedList {
         node.next = head;
         head = node;
         
+        size++;
+        
     } //end of insertAtHead
     
     //inserts into the middle of the list
@@ -32,7 +34,7 @@ public class MyLinkedList {
             Node temp;
             Node current;
             
-            int count = size / 2;
+            int count = middle();
             
             temp = head;
             current = null;
@@ -56,23 +58,25 @@ public class MyLinkedList {
     //inserts at the end of the list 
     public void insertAtTail(String key) {
     
-        Node node = new Node();
-        node.key = key;
-        node.next = null;
+        Node node = new Node(key);
         
         //checks to see if list is empty 
         if (head == null) { 
             
             head = node;
-            tail = node;
-            
-        } else { 
-            
-           // Node n = head;
-           tail.next = node;
-           tail = node;
+            //tail = node;
             
         }
+            
+            Node temp = head;
+            
+            while(temp.next != null) {
+                
+                temp = temp.next;
+                
+            }
+            
+        temp.next = node;
             
         size++;
         
@@ -119,7 +123,7 @@ public class MyLinkedList {
             
         } else {
             
-            int count = size / 2;
+            int count = middle();
             
             //checks for only one element
             if(head != tail) {
@@ -167,31 +171,25 @@ public class MyLinkedList {
             
             System.out.println("List is empty.");
             
-        } else {
+        }
+        
+        if(head.next == null) {
             
-            //checks for only one element
-            if(head != tail) {
-                
-                Node current = head;
-                
-                //while loop to search entire list
-                while(current.next != tail) {
-                    
-                    current = current.next;
-                    
-                }
-                
-                tail = current;
-                tail.next = null;
-                
-            } else {
-                
-                head = null;
-                tail = null;
-                
-            }
+            head = head.next;
             
         }
+        
+        Node previous = null;
+        Node temp = head;
+        
+        while(temp.next != null) {
+            
+            previous = temp;
+            temp = temp.next;
+            
+        }
+            
+        previous.next = null;
         
         size--;
         
@@ -200,18 +198,18 @@ public class MyLinkedList {
     //Prints the size of the list
     public void sizeList() {
         
-        System.out.println("The list of the list is: " + size);
+        System.out.println("The length of the list is: " + size);
         
     } //end of sizeList
     
     //searches for an element in the list
-    public int searchForElement(String element) {
+    public void searchForElement(String element) {
         
         //checks to see if list is empty
         if(head == null) {
             
             //element not found
-            return -1;
+            System.out.println("List is empty. Element \"" + element + "\" nout found.");
         }
         
         int index = 0;
@@ -222,17 +220,20 @@ public class MyLinkedList {
             
             if(temp.key.equalsIgnoreCase(element)) {
                 
-                return index;
-                
-            }
+                System.out.println("Element \"" + temp.key + "\" found in the list at index " + index + ".");
+                break;
+            } 
             
             index++;
             temp = temp.next;
             
         }
         
-        //element not found
-        return -1;
+        if(temp == null) {
+                
+                System.out.println("Element \"" + element + "\" not found in the list.");
+                
+        }
         
     } //end of searchForElement
     
@@ -257,7 +258,21 @@ public class MyLinkedList {
         }
         
         System.out.println();
-    }
+        
+    } //end of display
     
+    public int middle() {
+        
+        if(size % 2 == 0) {
+            
+            return ((size / 2) + 1);
+            
+        } else {
+            
+            return ((size / 2) + 1);
+            
+        }
+        
+    } //end of middle
     
 } //end of class
